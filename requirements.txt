@@ -1,0 +1,8 @@
+ultralytics>=8.0.53
+torch>=2.0.0
+torchvision>=0.15.1
+matplotlib>=3.7.1
+seaborn>=0.12.2
+pandas>=2.0.1
+numpy>=1.24.3
+scikit-learn>=1.2.2

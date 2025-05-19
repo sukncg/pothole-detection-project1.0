@@ -1,0 +1,68 @@
+# pothole-detection-project/configs/config.yaml
+# 模型配置
+model:
+  architecture: yolov8n  # 指定模型架构（如yolov8n, yolov8s, yolov8m等）
+  name: pothole_detector
+  num_classes: 3  # 3个坑洼类别 + 背景
+  pretrained: true
+
+# 训练配置
+training:
+  epochs: 30
+  batch_size: 8
+  learning_rate: 0.001
+  early_stopping_patience: 10
+  weight_decay: 0.0005
+  lr_scheduler:
+    factor: 0.5
+    patience: 3
+    verbose: true
+
+# 数据配置
+data:
+  yaml_path: dataset/data.yaml  # 添加此行
+  train_dir: dataset/train
+  val_dir: dataset/valid
+  test_dir: dataset/test
+  image_size: 640
+  train_transforms:
+    - name: Resize
+      params:
+        size: [640, 640]
+    - name: RandomHorizontalFlip
+      params:
+        p: 0.5
+    - name: RandomVerticalFlip
+      params:
+        p: 0.5
+    - name: ColorJitter
+      params:
+        brightness: 0.1
+        contrast: 0.1
+        saturation: 0.1
+        hue: 0.1
+    - name: ToTensor
+    - name: Normalize
+      params:
+        mean: [0.485, 0.456, 0.406]
+        std: [0.229, 0.224, 0.225]
+  val_transforms:
+    - name: Resize
+      params:
+        size: [640, 640]
+    - name: ToTensor
+    - name: Normalize
+      params:
+        mean: [0.485, 0.456, 0.406]
+        std: [0.229, 0.224, 0.225]
+
+# 结果保存配置
+results:
+  save_dir: results
+  model_save_path: best_model.pth
+  training_history_path: training_history.png
+  predictions_dir: predictions
+  confusion_matrix_path: confusion_matrix.png
+  pr_curve_path: pr_curve.png
+  class_metrics_path: class_metrics.csv
+
